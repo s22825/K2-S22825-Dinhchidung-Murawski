@@ -64,13 +64,13 @@ namespace k2_s22825.Services
 
         public async Task<IEnumerable<MusicianDTO>> GetMusician(int id)
         {
-            var pom = _context.Musicians
+            var mus = _context.Musicians
                 .Where(e => e.IdMusician == id)
                 .Include(e => e.MusicianTracks)
                 .ThenInclude(e => e.Track);
-            if (pom == null)
+            if ( await mus.FirstOrDefaultAsync() == null)
                 return null;
-            return await pom
+            return await mus
                 .Select(e => new MusicianDTO
                 {
                     FirstName = e.FirstName,
